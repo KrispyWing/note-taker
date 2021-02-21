@@ -53,6 +53,18 @@ app.post('/api/notes', (req, res) => {
   res.json(savedNotes);
 });
 
+//delete a note
+app.delete('/api/notes/:id', (req, res) => {
+  let noteId = req.params.id.toString();
+  let savedNotes = JSON.parse(fs.readFileSync('./db/db.json', 'utf8'));
+
+  const newSavedNotes = savedNotes.filter(note => note.id.toString() !== noteId);
+
+  fs.writeFileSync('./db/db.json', JSON.stringify(newSavedNotes));
+  res.json(newSavedNotes); 
+
+})
+
 app.listen(PORT, () => {
   console.log(`API server now on port ${PORT}`);
 });

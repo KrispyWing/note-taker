@@ -18,12 +18,12 @@ app.use(express.json());
 app.use(express.static('public'));
 
 //routes for the HTML Pages
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, './index.html'));
-});
-
 app.get('/notes', (req, res) => {
   res.sendFile(path.join(__dirname, './public/notes.html'));
+});
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/index.html'));
 });
 
 //routes for api functions
@@ -49,7 +49,8 @@ app.post('/api/notes', (req, res) => {
   console.log(newNote);
   
   //write the new note to the db.json file
-  //fs.writeFileSync('./db/db.json', JSON.stringify(newNote));
+  fs.writeFileSync('./db/db.json', JSON.stringify(savedNotes));
+  res.json(savedNotes);
 });
 
 app.listen(PORT, () => {
